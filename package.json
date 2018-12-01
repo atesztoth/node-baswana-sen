@@ -1,0 +1,24 @@
+{
+  "name": "baswana-sen",
+  "version": "1.0.0",
+  "description": "This is an implementation of Baswana-Sen algorithm using NodeJS.",
+  "main": "src/index.html",
+  "dependencies": {
+    "cytoscape": "^3.2.21"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "serve": "node src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atesztoth/node-baswana-sen.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/atesztoth/node-baswana-sen/issues"
+  },
+  "homepage": "https://github.com/atesztoth/node-baswana-sen#readme"
+}
