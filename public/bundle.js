@@ -30262,7 +30262,8 @@ module.exports={
 },{}],8:[function(require,module,exports){
 /* eslint-disable */
 const cytoFactory = require('./cy-factory')
-const utilsFactory = require('./utils.js')
+
+const { clusterNodes, updateClusterInfo, randomGenerator } = require('./utils.js')
 const graph = require('../graphs/graph1')
 
 // HTML elements
@@ -30283,16 +30284,16 @@ const styles = ['#001c49', '#43006d', '#00576d', '#98f442', '#f4ad49']
 // CY
 const k = 4
 const cyInstance = cytoFactory.createInstance(cyContainer, graph, styles)
-const { clusterNodes } = utilsFactory(cyInstance)
 const nodes = graph.nodes.map(({ data: { id } }) => ({ id }))
 const edges = graph.edges.map(({ data: { id, source, target } }) => ({ id, source, target }))
-let clusters = []
+let clustering = []
 
 // Controls
 startButton.onclick = () => {
-  clusters.push(nodes)
-  infoDiv.innerHTML = JSON.stringify(clusters, null, 2)
-  clusterNodes(nodes, 'cluster-0')
+  clustering = [nodes.map(x => [x])]
+  console.info(clustering)
+  updateClusterInfo(clustering, infoDiv)
+  clusterNodes(cyInstance, clustering[0], 'cluster-0')
 }
 
 
@@ -30332,9 +30333,17 @@ module.exports = {
 }
 
 },{"cytoscape":3}],10:[function(require,module,exports){
-/* eslint-disable quote-props */
-module.exports = cyInstance => ({
-  clusterNodes: (nodes, cluster) => nodes.forEach(({ id }) => cyInstance.nodes(`[id="${ id }"]`).addClass(cluster))
-})
+/* eslint-disable */
+module.exports = {
+  clusterNodes: (cyInstance, clustering, clusterName) =>
+    clustering.forEach(cluster => cluster.forEach(({ id }) =>
+      cyInstance.nodes(`[id="${ id }"]`).addClass(clusterName))),
+  updateClusterInfo: (fullClustering, displayer) => {
+    let i = 0
+    displayer.innerHTML = fullClustering.reduce((acc, curr) =>
+      acc.concat(`${ ++i } ${ JSON.stringify(curr, null, 2) }`), '')
+  },
+  randomGenerator: succRate => () => Math.random() > (1 - succRate)
+}
 
 },{}]},{},[8]);
