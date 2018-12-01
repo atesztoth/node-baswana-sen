@@ -6,11 +6,16 @@ const path = require('path')
 const extractFileName = fromUrl => (/[^/]*$/u).exec(fromUrl)[0]
 http.createServer((req, res) => {
   console.log(`${ req.method } ${ req.url }`)
+  let usableUrl = req.url
 
-  const usableUrl = req.url.indexOf('/cytoscape/') !== -1
-    ? `./node_modules/cytoscape/dist/${ extractFileName(req.url) }`
-    : req.url.indexOf('/graph/') !== -1
-      ? `./src/graphs/${ req.url }` : req.url
+  if (req.url.indexOf('/cytoscape/') !== -1) {
+    usableUrl = `./node_modules/cytoscape/dist/${ extractFileName(req.url) }`
+  } else if (req.url.indexOf('/graph/') !== -1) {
+    usableUrl = `./src/graphs/${ req.url }`
+  } else if (req.url.indexOf('/bundle.js') !== -1) {
+    usableUrl = '/../public/bundle.js'
+  }
+
   // parse URL
   const parsedUrl = url.parse(usableUrl)
   // extract URL path
@@ -62,7 +67,7 @@ http.createServer((req, res) => {
     res.setHeader('Access-Control-Allow-Credentials', true)
 
     // if is a directory search for index file matching the extention
-    if (fs.statSync(usablePath).isDirectory()) usablePath += '/index.html'
+    if (fs.statSync(usablePath).isDirectory()) usablePath += '/../public/index.html'
 
     // read file from file system
     fs.readFile(usablePath, (err, data) => {

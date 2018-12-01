@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html lang="hu">
+<head>
+    <title>Baswana-Sen demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise,fetch"></script>
+    <style type="text/css">
+        #cy {
+            display: block;
+            width: 100%;
+            max-width: 1000px;
+            min-height: 700px;
+            border: 1px solid black;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<h1>Baswana-Sen</h1>
+<div>
+    <div>Lépések</div>
+    <ul>
+        <li><button id="start-button">Kezdeti clusterek</button></li>
+    </ul>
+</div>
+<div id="info">
+    <h2>Cluster info:</h2>
+    <div id="write-info"></div>
+</div>
+<div id="cy"></div>
+
+<script type="text/javascript" src="bundle.js"></script>
+</body>
+</html>
