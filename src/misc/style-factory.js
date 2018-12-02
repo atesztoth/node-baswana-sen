@@ -10,4 +10,24 @@ module.exports = [
     'background-color': x,
     'label': 'data(id)'
   }
-}))
+})).concat([
+  {
+    selector: 'node.cluster-unsigned',
+    style: {
+      'background-color': '#ff1d00',
+      'label': 'data(id)'
+    }
+  },
+  {
+    selector: 'edge',
+    style: {
+      'label': 'data(id)'
+    }
+  },
+  {
+    selector: 'edge.red-edge',
+    style: {
+      'line-color': '#ff1d00',
+    }
+  }
+])

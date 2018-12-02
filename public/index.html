@@ -18,17 +18,16 @@
 </head>
 <body>
 <h1>Baswana-Sen</h1>
-<div>
-    <div>Lépések</div>
-    <ul>
-        <li><button id="start-button">Kezdeti clusterek</button></li>
-    </ul>
+<div style="display: flex; flex-wrap: nowrap; align-items: flex-start;">
+    <div>
+        <button id="start-button">Léptet</button>
+    </div>
+    <div id="info" style="margin-left: 20px;">
+        <h2 style="margin-top: 0;">Cluster info:</h2>
+        <div id="write-info"></div>
+    </div>
+    <div id="cy"></div>
 </div>
-<div id="info">
-    <h2>Cluster info:</h2>
-    <div id="write-info"></div>
-</div>
-<div id="cy"></div>
 
 <script type="text/javascript" src="bundle.js"></script>
 </body>

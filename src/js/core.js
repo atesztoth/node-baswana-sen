@@ -5,8 +5,9 @@ const styles = require('../misc/style-factory')
 const graph = require('../graphs/graph1')
 const cytoFactory = require('./cy-factory')
 const nodeFactory = require('./node-factory')
+const edgeFactory = require('./edge-factory')
 const baswanaSenGenerator = require('./baswana-sen-generator')
-const { updateClusterInfo, randomGenerator } = require('./utils.js')
+const { randomGenerator } = require('./utils.js')
 
 // HTML elements
 const cyContainer = document.getElementById('cy')
@@ -19,20 +20,27 @@ const nodes = graph.nodes.map(({ data: { id } }, index) => nodeFactory({
   id,
   level: 0,
   clusterId: index,
-  cyInstance
+  cyInstance,
 }))
-const edges = graph.edges.map(({ data: { id, source, target } }) => ({
+const edges = graph.edges.map(({ data: { id, source, target } }) => edgeFactory({
   id,
   source,
   target,
+  cyInstance,
 }))
+console.info(edges)
+const updateLabels = () => infoDiv.innerHTML = nodes.reduce((a, { id, cluster: { id: clusterId, level } }) =>
+  a.concat(`${ id } - cluster: ${ clusterId }, level: ${ level } <br>`), '')
 const baswanaSen = baswanaSenGenerator({
   k: 4,
   nodes,
   edges,
   randomSupplier: randomGenerator,
-  shouldYield: true
+  shouldYield: true,
+  postman: () => updateLabels()
 })()
+
+updateLabels()
 
 // Controls
 nextButton.onclick = () => {
@@ -40,3 +48,4 @@ nextButton.onclick = () => {
   console.info(response)
 }
 
+// 12334d

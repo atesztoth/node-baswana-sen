@@ -60,9 +60,7 @@ rules:
   id-blacklist: error
   id-length: 0
   id-match: error
-  implicit-arrow-linebreak:
-    - error
-    - beside
+  implicit-arrow-linebreak: 0
   indent: 'off'
   indent-legacy: 'off'
   init-declarations: error

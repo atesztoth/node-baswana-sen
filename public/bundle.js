@@ -30260,42 +30260,55 @@ module.exports={
 }
 
 },{}],8:[function(require,module,exports){
-
-
+/* eslint-disable line-comment-position,no-inline-comments */
 module.exports = ({
   k,
   nodes,
   edges,
   randomSupplier,
-  shouldYield
+  shouldYield,
+  postman, // event deliverer
 }) => function *() {
-  yield 'Starting'
+  const H = [] // final spanner
   const internalRandom = randomSupplier(Math.pow(1 / nodes.length, 1 / k))
-  console.info('Initial clustering...')
   nodes.forEach(x => x.paint())
-  console.info('Done')
+  postman()
+  edges[0].mark()
+  yield 'Ready!'
   for (let i = 1; i <= k - 1; i++) {
     // Signing a cluster for reaching next level
-    if (shouldYield) yield 'Signing and coloring vertices'
+    if (shouldYield) yield 'Marking clusters...'
     nodes.forEach(n => {
       if (!internalRandom()) return
-      console.info('Called for node: ', n.id)
-      console.info('cluster level: ', i)
       n.cluster.level = i
       n.paint()
     })
-    if (shouldYield) yield 'Creating Qv...'
+    postman()
     // node.cluster.level === i-1 => the node is unsigned!
-    const exampleNode = nodes.filter(n => n.cluster.level === i - 1)[0]
-    // edges to all other szomszéd clusters
-    const edgesToOtherClusters = edges
-    .filter(e => {
-      const targetNode = nodes.find(({ id }) => e.target === id)
-      return e.source === exampleNode.id &&
-        targetNode.cluster.level >= i - 1 &&
-        targetNode.cluster.id !== exampleNode.cluster.id
+    // also giving them a nice red color to sign that, they are unsigned!
+    const unclusteredNodes = nodes.filter(n => n.cluster.level === i - 1).map(n => {
+      n.removePaint()
+      n.markAsUnSigned()
+      return n
     })
-    console.info('edges to other cs:', edgesToOtherClusters)
+    // edges to all other szomszéd clusters
+    for (let j = 0; j < unclusteredNodes.length; j++) {
+      const { id, cluster: { id: ownClusterId } } = unclusteredNodes[j]
+      const edgesToOtherClusters = edges.filter(({ source, target }) => {
+        if (id === source || id === target) {
+          const otherNode = nodes.find(({ id: otherId }) => otherId === (id === source ? target : source))
+          return otherNode.cluster.id !== ownClusterId
+        }
+        return false
+      })
+      console.info(`edgesToOtherClusters: ${ id }`, edgesToOtherClusters)
+      yield 'Marking edges to other clusters...'
+      edgesToOtherClusters.forEach(e => e.mark())
+      // Show, which edges they are!
+      console.info(edgesToOtherClusters)
+      // Sort them edges!
+    }
+
     const Qv = []
     if (shouldYield) yield 'Qv created'
     console.info(Qv)
@@ -30310,8 +30323,9 @@ const styles = require('../misc/style-factory')
 const graph = require('../graphs/graph1')
 const cytoFactory = require('./cy-factory')
 const nodeFactory = require('./node-factory')
+const edgeFactory = require('./edge-factory')
 const baswanaSenGenerator = require('./baswana-sen-generator')
-const { updateClusterInfo, randomGenerator } = require('./utils.js')
+const { randomGenerator } = require('./utils.js')
 
 // HTML elements
 const cyContainer = document.getElementById('cy')
@@ -30324,20 +30338,27 @@ const nodes = graph.nodes.map(({ data: { id } }, index) => nodeFactory({
   id,
   level: 0,
   clusterId: index,
-  cyInstance
+  cyInstance,
 }))
-const edges = graph.edges.map(({ data: { id, source, target } }) => ({
+const edges = graph.edges.map(({ data: { id, source, target } }) => edgeFactory({
   id,
   source,
   target,
+  cyInstance,
 }))
+console.info(edges)
+const updateLabels = () => infoDiv.innerHTML = nodes.reduce((a, { id, cluster: { id: clusterId, level } }) =>
+  a.concat(`${ id } - cluster: ${ clusterId }, level: ${ level } <br>`), '')
 const baswanaSen = baswanaSenGenerator({
   k: 4,
   nodes,
   edges,
   randomSupplier: randomGenerator,
-  shouldYield: true
+  shouldYield: true,
+  postman: () => updateLabels()
 })()
+
+updateLabels()
 
 // Controls
 nextButton.onclick = () => {
@@ -30345,8 +30366,9 @@ nextButton.onclick = () => {
   console.info(response)
 }
 
+// 12334d
 
-},{"../graphs/graph1":7,"../misc/style-factory":13,"./baswana-sen-generator":8,"./cy-factory":10,"./node-factory":11,"./utils.js":12}],10:[function(require,module,exports){
+},{"../graphs/graph1":7,"../misc/style-factory":14,"./baswana-sen-generator":8,"./cy-factory":10,"./edge-factory":11,"./node-factory":12,"./utils.js":13}],10:[function(require,module,exports){
 /* eslint-disable quote-props */
 const cytoscape = require('cytoscape')
 
@@ -30382,6 +30404,23 @@ module.exports = {
 }
 
 },{"cytoscape":1}],11:[function(require,module,exports){
+module.exports = ({ id, source, target, cyInstance }) => {
+  const edge = {
+    id,
+    source,
+    target,
+  }
+  edge.mark = function () {
+    console.info('mark edge: ', id)
+    cyInstance.filter(`edge#${ id }`).addClass('red-edge')
+  }
+  edge.unmark = function () {
+    cyInstance.filter(`edge#${ id }`).removeClass('red-edge')
+  }
+  return edge
+}
+
+},{}],12:[function(require,module,exports){
 module.exports = ({ id, level, clusterId, cyInstance }) => {
   const node = {
     id,
@@ -30391,13 +30430,20 @@ module.exports = ({ id, level, clusterId, cyInstance }) => {
     },
   }
   node.paint = function () {
-    cyInstance.filter(`node#${ id }`).
-               addClass(`cluster-${ this.cluster.level }`)
+    cyInstance.filter(`node#${ id }`)
+               .addClass(`cluster-${ this.cluster.id }`)
   }.bind(node)
+  node.removePaint = function() {
+    cyInstance.filter(`node#${ id }`)
+               .removeClass(`cluster-${ this.cluster.id }`)
+  }.bind(node)
+  node.markAsUnSigned = function () {
+    cyInstance.filter(`node#${ id }`).addClass('cluster-unsigned')
+  }
   return node
 }
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /* eslint-disable */
 module.exports = {
   updateClusterInfo: (fullClustering, displayer) => {
@@ -30408,7 +30454,7 @@ module.exports = {
   randomGenerator: succRate => () => Math.random() > (1 - succRate)
 }
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 module.exports = [
   '#001c49',
   '#f4df42',
@@ -30421,6 +30467,26 @@ module.exports = [
     'background-color': x,
     'label': 'data(id)'
   }
-}))
+})).concat([
+  {
+    selector: 'node.cluster-unsigned',
+    style: {
+      'background-color': '#ff1d00',
+      'label': 'data(id)'
+    }
+  },
+  {
+    selector: 'edge',
+    style: {
+      'label': 'data(id)'
+    }
+  },
+  {
+    selector: 'edge.red-edge',
+    style: {
+      'line-color': '#ff1d00',
+    }
+  }
+])
 
 },{}]},{},[9]);
