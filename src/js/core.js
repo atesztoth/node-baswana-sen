@@ -26,7 +26,6 @@ const edges = graph.edges.map(({ data: { id, source, target } }) => ({
 }))
 
 // INIT
-console.info('DIK GECI', styles)
 const cyInstance = cytoFactory.createInstance(cyContainer, graph, styles)
 const baswanaSen = baswanaSenGenerator({
   k: 4,
