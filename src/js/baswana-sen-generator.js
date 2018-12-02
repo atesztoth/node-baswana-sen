@@ -22,8 +22,18 @@ module.exports = ({
       n.cluster.level = i
       n.paint()
     })
-    // vertexPainter(signedVertices, i + 1)
     if (shouldYield) yield 'Creating Qv...'
+    // node.cluster.level === i-1 => the node is unsigned!
+    const exampleNode = nodes.filter(n => n.cluster.level === i - 1)[0]
+    // edges to all other szomszéd clusters
+    const edgesToOtherClusters = edges
+    .filter(e => {
+      const targetNode = nodes.find(({ id }) => e.target === id)
+      return e.source === exampleNode.id &&
+        targetNode.cluster.level >= i - 1 &&
+        targetNode.cluster.id !== exampleNode.cluster.id
+    })
+    console.info('edges to other cs:', edgesToOtherClusters)
     const Qv = []
     if (shouldYield) yield 'Qv created'
     console.info(Qv)
