@@ -11,8 +11,10 @@
     "watchify": "^3.11.0"
   },
   "scripts": {
+    "watch": "npm run build && .\\node_modules\\.bin\\watchify .\\src\\js\\core.js -o .\\public\\bundle.js",
     "build": "./node_modules/.bin/browserify ./src/js/core.js -o ./public/bundle.js",
-    "dev": "nodemon src/server.js",
+    "dev": "./node_modules/.bin/concurrently -k \"npm run serve-dev\" \"npm run watch\"",
+    "serve-dev": "nodemon src/server.js",
     "serve": "node src/server.js"
   },
   "repository": {

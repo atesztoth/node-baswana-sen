@@ -1,36 +1,45 @@
 /* eslint-disable */
-const cytoFactory = require('./cy-factory')
 
-const { clusterNodes, updateClusterInfo, randomGenerator } = require('./utils.js')
+// Styles for CY, CY
+const styles = require('../misc/style-factory')
 const graph = require('../graphs/graph1')
+const cytoFactory = require('./cy-factory')
+const baswanaSenGenerator = require('./baswana-sen-generator')
+const { updateClusterInfo, randomGenerator } = require('./utils.js')
 
 // HTML elements
 const cyContainer = document.getElementById('cy')
-const startButton = document.getElementById('start-button')
+const nextButton = document.getElementById('start-button')
 const infoDiv = document.getElementById('write-info')
 
-// Styles for CY
-const styles = ['#001c49', '#43006d', '#00576d', '#98f442', '#f4ad49']
-  .map((x, i) => ({
-    selector: `node.cluster-${ i }`,
-    style: {
-      'background-color': x,
-      'label': 'data(id)'
-    }
-  }))
-
-// CY
-const k = 4
-const cyInstance = cytoFactory.createInstance(cyContainer, graph, styles)
+// Preparation
+const verticePainter = (vertices, k) => {
+  cyInstance.filter(vertices
+             .reduce((a, c) => a.concat(`node#${ c.id },`), '').slice(0, -1)
+  ).forEach(v => v.addClass(`cluster-${ k }`))
+}
 const nodes = graph.nodes.map(({ data: { id } }) => ({ id }))
-const edges = graph.edges.map(({ data: { id, source, target } }) => ({ id, source, target }))
-let clustering = []
+const edges = graph.edges.map(({ data: { id, source, target } }) => ({
+  id,
+  source,
+  target
+}))
+
+// INIT
+console.info('DIK GECI', styles)
+const cyInstance = cytoFactory.createInstance(cyContainer, graph, styles)
+const baswanaSen = baswanaSenGenerator({
+  k: 4,
+  nodes,
+  edges,
+  verticePainter,
+  randomSupplier: randomGenerator,
+  shouldYield: true
+})()
 
 // Controls
-startButton.onclick = () => {
-  clustering = [nodes.map(x => [x])]
-  console.info(clustering)
-  updateClusterInfo(clustering, infoDiv)
-  clusterNodes(cyInstance, clustering[0], 'cluster-0')
+nextButton.onclick = () => {
+  const response = baswanaSen.next().value
+  console.info(response)
 }
 

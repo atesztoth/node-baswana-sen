@@ -58,7 +58,7 @@ rules:
   guard-for-in: error
   handle-callback-err: error
   id-blacklist: error
-  id-length: error
+  id-length: 0
   id-match: error
   implicit-arrow-linebreak:
     - error
@@ -129,7 +129,7 @@ rules:
   no-lone-blocks: error
   no-lonely-if: error
   no-loop-func: error
-  no-magic-numbers: error
+  no-magic-numbers: 0
   no-misleading-character-class: error
   no-mixed-operators: error
   no-mixed-requires: error
@@ -149,7 +149,7 @@ rules:
   no-octal-escape: error
   no-param-reassign: error
   no-path-concat: error
-  no-plusplus: error
+  no-plusplus: 0
   no-process-env: error
   no-process-exit: error
   no-proto: error
@@ -216,11 +216,11 @@ rules:
   prefer-rest-params: error
   prefer-spread: error
   prefer-template: error
-  quote-props: error
+  quote-props: 0
   quotes:
     - error
     - single
-  radix: error
+  radix: warn
   require-atomic-updates: error
   require-await: error
   require-jsdoc: error
