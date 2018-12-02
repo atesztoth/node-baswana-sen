@@ -30267,25 +30267,25 @@ module.exports = ({
   nodes,
   edges,
   randomSupplier,
-  verticePainter,
   shouldYield
 }) => function *() {
   yield 'Starting'
-  const clusters = []
   const internalRandom = randomSupplier(Math.pow(1 / nodes.length, 1 / k))
-  clusters[0] = nodes.map(x => [x])
-  verticePainter(nodes, 0)
-  for (let i = 0; i < k - 1; i++) {
-    // eslint-disable-next-line
-    clusters[i + 1] = clusters[i].reduce((a, c) => internalRandom() ? a.concat(c) : a, [])
-    // Before colouring our selected vertices, yielding a stop if needed:
-    if (shouldYield) yield 'Color signed vertices'
-    const signedVertices = clusters[i + 1].flatMap(x => x)
-    verticePainter(signedVertices, i + 1)
+  console.info('Initial clustering...')
+  nodes.forEach(x => x.paint())
+  console.info('Done')
+  for (let i = 1; i <= k - 1; i++) {
+    // Signing a cluster for reaching next level
+    if (shouldYield) yield 'Signing and coloring vertices'
+    nodes.forEach(n => {
+      if (!internalRandom()) return
+      console.info('Called for node: ', n.id)
+      console.info('cluster level: ', i)
+      n.cluster.level = i
+      n.paint()
+    })
+    // vertexPainter(signedVertices, i + 1)
     if (shouldYield) yield 'Creating Qv...'
-    const unsignedVertices = clusters[i].flatMap(c => c)
-      .filter(({ id }) => !signedVertices.find(s => s.id === id))
-    console.info('Unsigned: ', unsignedVertices)
     const Qv = []
     if (shouldYield) yield 'Qv created'
     console.info(Qv)
@@ -30299,6 +30299,7 @@ module.exports = ({
 const styles = require('../misc/style-factory')
 const graph = require('../graphs/graph1')
 const cytoFactory = require('./cy-factory')
+const nodeFactory = require('./node-factory')
 const baswanaSenGenerator = require('./baswana-sen-generator')
 const { updateClusterInfo, randomGenerator } = require('./utils.js')
 
@@ -30307,26 +30308,23 @@ const cyContainer = document.getElementById('cy')
 const nextButton = document.getElementById('start-button')
 const infoDiv = document.getElementById('write-info')
 
-// Preparation
-const verticePainter = (vertices, k) => {
-  cyInstance.filter(vertices
-             .reduce((a, c) => a.concat(`node#${ c.id },`), '').slice(0, -1)
-  ).forEach(v => v.addClass(`cluster-${ k }`))
-}
-const nodes = graph.nodes.map(({ data: { id } }) => ({ id }))
+// INIT
+const cyInstance = cytoFactory.createInstance(cyContainer, graph, styles)
+const nodes = graph.nodes.map(({ data: { id } }, index) => nodeFactory({
+  id,
+  level: 0,
+  clusterId: index,
+  cyInstance
+}))
 const edges = graph.edges.map(({ data: { id, source, target } }) => ({
   id,
   source,
-  target
+  target,
 }))
-
-// INIT
-const cyInstance = cytoFactory.createInstance(cyContainer, graph, styles)
 const baswanaSen = baswanaSenGenerator({
   k: 4,
   nodes,
   edges,
-  verticePainter,
   randomSupplier: randomGenerator,
   shouldYield: true
 })()
@@ -30338,7 +30336,7 @@ nextButton.onclick = () => {
 }
 
 
-},{"../graphs/graph1":7,"../misc/style-factory":12,"./baswana-sen-generator":8,"./cy-factory":10,"./utils.js":11}],10:[function(require,module,exports){
+},{"../graphs/graph1":7,"../misc/style-factory":13,"./baswana-sen-generator":8,"./cy-factory":10,"./node-factory":11,"./utils.js":12}],10:[function(require,module,exports){
 /* eslint-disable quote-props */
 const cytoscape = require('cytoscape')
 
@@ -30374,6 +30372,22 @@ module.exports = {
 }
 
 },{"cytoscape":1}],11:[function(require,module,exports){
+module.exports = ({ id, level, clusterId, cyInstance }) => {
+  const node = {
+    id,
+    cluster: {
+      id: clusterId,
+      level,
+    },
+  }
+  node.paint = function () {
+    cyInstance.filter(`node#${ id }`).
+               addClass(`cluster-${ this.cluster.level }`)
+  }.bind(node)
+  return node
+}
+
+},{}],12:[function(require,module,exports){
 /* eslint-disable */
 module.exports = {
   updateClusterInfo: (fullClustering, displayer) => {
@@ -30384,7 +30398,7 @@ module.exports = {
   randomGenerator: succRate => () => Math.random() > (1 - succRate)
 }
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 module.exports = [
   '#001c49',
   '#f4df42',
