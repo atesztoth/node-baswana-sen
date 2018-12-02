@@ -44,7 +44,7 @@ rules:
   consistent-this: error
   curly: 'off'
   default-case: error
-  dot-location: error
+  dot-location: 0
   dot-notation: error
   eol-last: error
   eqeqeq: error

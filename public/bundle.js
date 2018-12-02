@@ -30260,6 +30260,8 @@ module.exports={
 }
 
 },{}],8:[function(require,module,exports){
+
+
 module.exports = ({
   k,
   nodes,
@@ -30277,16 +30279,15 @@ module.exports = ({
     // eslint-disable-next-line
     clusters[i + 1] = clusters[i].reduce((a, c) => internalRandom() ? a.concat(c) : a, [])
     // Before colouring our selected vertices, yielding a stop if needed:
-    if (shouldYield) yield 'Color vertices'
+    if (shouldYield) yield 'Color signed vertices'
     const signedVertices = clusters[i + 1].flatMap(x => x)
     verticePainter(signedVertices, i + 1)
-    if (shouldYield) yield 'Qv létrehozása...'
-    const unsignedVertices = clusters[i].flatMap(c => c).
-                                         filter(({ id }) => !signedVertices.find(s => s.id === id))
+    if (shouldYield) yield 'Creating Qv...'
+    const unsignedVertices = clusters[i].flatMap(c => c)
+      .filter(({ id }) => !signedVertices.find(s => s.id === id))
     console.info('Unsigned: ', unsignedVertices)
-    
     const Qv = []
-    if (shouldYield) yield 'Qv létrehozva'
+    if (shouldYield) yield 'Qv created'
     console.info(Qv)
   }
 }
