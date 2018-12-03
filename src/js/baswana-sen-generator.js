@@ -9,10 +9,10 @@ module.exports = ({
 }) => function *() {
   const H = [] // final spanner
   const internalRandom = randomSupplier(Math.pow(1 / nodes.length, 1 / k))
-  if (shouldYield) yield 'Will show initial clustering'
+  if (shouldYield()) yield 'Will show initial clustering'
   nodes.forEach(x => x.paint())
   postman()
-  if (shouldYield) yield 'Will start iterating'
+  if (shouldYield()) yield 'Will start iterating'
   for (let i = 1; i <= k - 1; i++) {
     // Signing a cluster for reaching next level
     const existingClusters = nodes.filter(({ cluster: { level } }) => level === i - 1)
@@ -36,7 +36,7 @@ module.exports = ({
       n.markAsUnSigned()
       return n
     })
-    if (shouldYield) yield 'Check marked clusters!'
+    if (shouldYield()) yield 'Check marked clusters!'
     // edges to all other szomszéd clusters
     for (let j = 0; j < unclusteredNodes.length; j++) {
       const { id, cluster: { id: ownClusterId } } = unclusteredNodes[j]
@@ -48,7 +48,7 @@ module.exports = ({
         return false
       })
       console.info(`edgesToOtherClusters: ${ id }`, edgesToOtherClusters)
-      if (shouldYield) yield 'Will mark edges to other clusters'
+      if (shouldYield()) yield 'Will mark edges to other clusters'
       edgesToOtherClusters.forEach(e => e.mark())
       // Show, which edges they are!
       console.info('Edges to other clusters: ', edgesToOtherClusters)
@@ -65,11 +65,11 @@ module.exports = ({
         return a
       }, {})
       console.info('sorted edges to others: ', sorted)
-      if (shouldYield) yield 'Check results! Next step: show Qv'
+      if (shouldYield()) yield 'Check results! Next step: show Qv'
       const Qv = Object.keys(sorted).map(key => sorted[key][0])
       console.info('Qv: ', Qv)
-      if (shouldYield) yield `Qv: ${ JSON.stringify(Qv, null, 2) }`
-      if (shouldYield) yield 'Checking if we have any signed neighbours'
+      if (shouldYield()) yield `Qv: ${ JSON.stringify(Qv, null, 2) }`
+      if (shouldYield()) yield 'Checking if we have any signed neighbours'
       // Also giving a distance property for later use:
       const signedNeighbours = Qv.map(({ target, source, weight }) => {
         const otherNode = nodes.find(({ id: otherId }) => otherId === (id === source ? target : source))
@@ -78,14 +78,14 @@ module.exports = ({
       console.info('Nodes in signed clusters: ', signedNeighbours)
       // b. part of the algorithm
       if (signedNeighbours.length < 1) {
-        if (shouldYield) yield 'Did not find signed neighbours'
+        if (shouldYield()) yield 'Did not find signed neighbours'
         H.push(Qv)
         postman()
       } else {
-        if (shouldYield) yield 'Found signed neighbour clusters'
+        if (shouldYield()) yield 'Found signed neighbour clusters'
         // eslint-disable-next-line
         const closestNode = signedNeighbours.sort((x, y) => x.distance - y.distance)[0]
-        if (shouldYield) yield `Chosen node: ${ closestNode.id }`
+        if (shouldYield()) yield `Chosen node: ${ closestNode.id }`
         console.info(`Joining cluster: ${ closestNode.cluster.id }`)
         // finding the joining edge:
         const { id: closestNodeId } = closestNode
@@ -97,17 +97,17 @@ module.exports = ({
         unclusteredNodes[j].cluster.id = closestNode.cluster.id
         unclusteredNodes[j].paint()
         postman()
-        if (shouldYield) yield `Adding every edge to H that is shorter than: {${ unclusteredNodes[j].id }, ${ closestNode.id }}`
+        if (shouldYield()) yield `Adding every edge to H that is shorter than: {${ unclusteredNodes[j].id }, ${ closestNode.id }}`
         const shortestToSomeClusters = Qv.filter(({ weight, id: edgeId }) =>
           weight < closestNode.distance && edgeId !== edgeIJoinedBy.id)
         H.push(shortestToSomeClusters)
-        if (shouldYield) yield 'Cleaning up'
+        if (shouldYield()) yield 'Cleaning up'
         edges.forEach(edge => edge.unmark())
         unclusteredNodes.filter(({ cluster: { level } }) => level !== closestNode.cluster.level).forEach(node => node.removePaint())
         console.info('H:', H)
-        if (shouldYield) yield 'Showing H'
+        if (shouldYield()) yield 'Showing H'
         H.flatMap(x => x).forEach(edge => edge.mark())
-        if (shouldYield) yield 'Showing H, will unmark on next click'
+        if (shouldYield()) yield 'Showing H, will unmark on next click'
         H.flatMap(x => x).forEach(edge => edge.unmark())
       }
     } // end of looping through unsigned nodes of current iteration
@@ -148,7 +148,7 @@ module.exports = ({
   // Edgestoadd gonna be a multi dimensional array, like: [[edge1,edge2], [edge3] ....], so lets flatten it!
   H.push(edgesToAdd.flatMap(x => x))
 
-  if (shouldYield) yield 'Will show final H'
+  if (shouldYield()) yield 'Will show final H'
   H.flatMap(x => x).forEach(edge => edge.finalColor())
-  if (shouldYield) yield 'Finished'
+  if (shouldYield()) yield 'Finished'
 }

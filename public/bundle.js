@@ -30241,1122 +30241,80 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
 },{"process/browser.js":5,"timers":6}],7:[function(require,module,exports){
 module.exports={
-  "nodes": [
-    {
-      "data": {
-        "id": "n40",
-        "weight": 53,
-        "position": {
-          "x": 50,
-          "y": 45
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n41",
-        "weight": 23,
-        "position": {
-          "x": 150,
-          "y": 45
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n42",
-        "weight": 0,
-        "position": {
-          "x": 250,
-          "y": 45
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n43",
-        "weight": 50,
-        "position": {
-          "x": 350,
-          "y": 45
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n44",
-        "weight": 60,
-        "position": {
-          "x": 450,
-          "y": 45
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n45",
-        "weight": 60,
-        "position": {
-          "x": 550,
-          "y": 45
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n46",
-        "weight": 39,
-        "position": {
-          "x": 50,
-          "y": 135
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n47",
-        "weight": 96,
-        "position": {
-          "x": 150,
-          "y": 135
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n48",
-        "weight": 68,
-        "position": {
-          "x": 250,
-          "y": 135
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n49",
-        "weight": 83,
-        "position": {
-          "x": 350,
-          "y": 135
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n50",
-        "weight": 77,
-        "position": {
-          "x": 450,
-          "y": 135
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n51",
-        "weight": 40,
-        "position": {
-          "x": 550,
-          "y": 135
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n52",
-        "weight": 84,
-        "position": {
-          "x": 50,
-          "y": 225
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n53",
-        "weight": 47,
-        "position": {
-          "x": 150,
-          "y": 225
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n54",
-        "weight": 27,
-        "position": {
-          "x": 250,
-          "y": 225
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n55",
-        "weight": 14,
-        "position": {
-          "x": 350,
-          "y": 225
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n56",
-        "weight": 3,
-        "position": {
-          "x": 450,
-          "y": 225
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n57",
-        "weight": 13,
-        "position": {
-          "x": 550,
-          "y": 225
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n58",
-        "weight": 60,
-        "position": {
-          "x": 50,
-          "y": 315
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n59",
-        "weight": 72,
-        "position": {
-          "x": 150,
-          "y": 315
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n60",
-        "weight": 55,
-        "position": {
-          "x": 250,
-          "y": 315
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n61",
-        "weight": 3,
-        "position": {
-          "x": 350,
-          "y": 315
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n62",
-        "weight": 65,
-        "position": {
-          "x": 450,
-          "y": 315
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n63",
-        "weight": 57,
-        "position": {
-          "x": 550,
-          "y": 315
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n64",
-        "weight": 24,
-        "position": {
-          "x": 50,
-          "y": 405
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n65",
-        "weight": 68,
-        "position": {
-          "x": 150,
-          "y": 405
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n66",
-        "weight": 33,
-        "position": {
-          "x": 250,
-          "y": 405
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n67",
-        "weight": 26,
-        "position": {
-          "x": 350,
-          "y": 405
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n68",
-        "weight": 54,
-        "position": {
-          "x": 450,
-          "y": 405
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "n69",
-        "weight": 42,
-        "position": {
-          "x": 550,
-          "y": 405
-        },
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    }
-  ],
-  "edges": [
-    {
-      "data": {
-        "id": "e121",
-        "weight": 19,
-        "source": "n41",
-        "target": "n50",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e129",
-        "weight": 31,
-        "source": "n65",
-        "target": "n58",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e131",
-        "weight": 90,
-        "source": "n53",
-        "target": "n43",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e132",
-        "weight": 36,
-        "source": "n52",
-        "target": "n58",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e138",
-        "weight": 65,
-        "source": "n54",
-        "target": "n55",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e142",
-        "weight": 93,
-        "source": "n40",
-        "target": "n45",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e143",
-        "weight": 58,
-        "source": "n63",
-        "target": "n68",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e144",
-        "weight": 6,
-        "source": "n66",
-        "target": "n56",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e149",
-        "weight": 59,
-        "source": "n67",
-        "target": "n45",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e155",
-        "weight": 66,
-        "source": "n43",
-        "target": "n56",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e162",
-        "weight": 39,
-        "source": "n60",
-        "target": "n63",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e164",
-        "weight": 72,
-        "source": "n42",
-        "target": "n68",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e167",
-        "weight": 45,
-        "source": "n43",
-        "target": "n48",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e168",
-        "weight": 10,
-        "source": "n61",
-        "target": "n67",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e173",
-        "weight": 6,
-        "source": "n56",
-        "target": "n40",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e176",
-        "weight": 36,
-        "source": "n48",
-        "target": "n67",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e184",
-        "weight": 59,
-        "source": "n67",
-        "target": "n43",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e210",
-        "weight": 82,
-        "source": "n59",
-        "target": "n66",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e216",
-        "weight": 70,
-        "source": "n46",
-        "target": "n67",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e218",
-        "weight": 33,
-        "source": "n46",
-        "target": "n62",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e222",
-        "weight": 19,
-        "source": "n49",
-        "target": "n62",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e224",
-        "weight": 92,
-        "source": "n47",
-        "target": "n56",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e234",
-        "weight": 97,
-        "source": "n42",
-        "target": "n63",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e238",
-        "weight": 73,
-        "source": "n58",
-        "target": "n65",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e239",
-        "weight": 99,
-        "source": "n47",
-        "target": "n59",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e260",
-        "weight": 54,
-        "source": "n51",
-        "target": "n45",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e261",
-        "weight": 15,
-        "source": "n63",
-        "target": "n45",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e263",
-        "weight": 43,
-        "source": "n47",
-        "target": "n42",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e268",
-        "weight": 69,
-        "source": "n44",
-        "target": "n49",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e272",
-        "weight": 77,
-        "source": "n50",
-        "target": "n61",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e273",
-        "weight": 95,
-        "source": "n44",
-        "target": "n57",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e274",
-        "weight": 70,
-        "source": "n48",
-        "target": "n58",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e278",
-        "weight": 75,
-        "source": "n57",
-        "target": "n41",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e293",
-        "weight": 50,
-        "source": "n44",
-        "target": "n63",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e295",
-        "weight": 98,
-        "source": "n50",
-        "target": "n66",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e298",
-        "weight": 76,
-        "source": "n49",
-        "target": "n60",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e299",
-        "weight": 6,
-        "source": "n42",
-        "target": "n65",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e307",
-        "weight": 69,
-        "source": "n52",
-        "target": "n47",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e308",
-        "weight": 62,
-        "source": "n53",
-        "target": "n62",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e309",
-        "weight": 66,
-        "source": "n66",
-        "target": "n53",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e311",
-        "weight": 94,
-        "source": "n65",
-        "target": "n55",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    },
-    {
-      "data": {
-        "id": "e312",
-        "weight": 31,
-        "source": "n58",
-        "target": "n42",
-        "position": {},
-        "removed": false,
-        "selected": false,
-        "selectable": true,
-        "locked": false,
-        "grabbable": true,
-        "classes": ""
-      }
-    }
-  ]
+    "nodes": [
+      { "data": { "id": "a" } },
+      { "data": { "id": "b" } },
+      { "data": { "id": "c" } },
+      { "data": { "id": "d" } },
+      { "data": { "id": "e" } }
+    ],
+    "edges": [
+      { "data": { "id": "ae", "weight": 1, "source": "a", "target": "e" } },
+      { "data": { "id": "ab", "weight": 3, "source": "a", "target": "b" } },
+      { "data": { "id": "be", "weight": 4, "source": "b", "target": "e" } },
+      { "data": { "id": "bc", "weight": 5, "source": "b", "target": "c" } },
+      { "data": { "id": "ce", "weight": 6, "source": "c", "target": "e" } },
+      { "data": { "id": "cd", "weight": 2, "source": "c", "target": "d" } },
+      { "data": { "id": "de", "weight": 7, "source": "d", "target": "e" } }
+    ]
 }
+
 },{}],8:[function(require,module,exports){
+const styleFactory = require('../misc/style-factory')
+const cytoFactory = require('./cy-factory')
+const nodeFactory = require('./node-factory')
+const edgeFactory = require('./edge-factory')
+const baswanaSenGenerator = require('./baswana-sen-generator')
+const { randomGenerator } = require('./utils.js')
+
+module.exports = ({ cyContainer, nextButton, infoDiv, yieldedInfoDiv, graph, yieldTrigger, yieldInfo }) => {
+  // INIT
+  const styles = styleFactory(graph.nodes.length)
+  let internalShouldYield = true
+  const cyInstance = cytoFactory.createInstance(cyContainer, graph, styles)
+  const nodes = graph.nodes.map(({ data: { id } }, index) => nodeFactory({
+    id,
+    level: 0,
+    clusterId: index,
+    cyInstance,
+  }))
+  const edges = graph.edges.map(({ data: { id, source, target, weight } }) => edgeFactory({
+    id,
+    source,
+    target,
+    weight,
+    cyInstance,
+  }))
+  const updateLabels = () => {
+    infoDiv.innerHTML = nodes.reduce((a, { id, cluster: { id: clusterId, level } }) =>
+    a.concat(`${ id } - cluster: ${ clusterId }, level: ${ level } <br>`), '')
+    yieldInfo.innerHTML = `Does yield: ${ internalShouldYield ? 'yes' : 'no' }`
+  }
+  const baswanaSen = baswanaSenGenerator({
+    k: 4,
+    nodes,
+    edges,
+    randomSupplier: randomGenerator,
+    shouldYield: () => internalShouldYield,
+    postman: () => updateLabels()
+  })()
+
+  updateLabels()
+
+  // Controls
+  nextButton.onclick = () => {
+    const response = baswanaSen.next().value
+    yieldedInfoDiv.innerHTML = response || 'No info'
+    console.info(response)
+  }
+
+  yieldTrigger.onclick = () => {
+    internalShouldYield = !internalShouldYield
+    updateLabels()
+  }
+}
+
+},{"../misc/style-factory":16,"./baswana-sen-generator":9,"./cy-factory":11,"./edge-factory":12,"./node-factory":13,"./utils.js":14}],9:[function(require,module,exports){
 /* eslint-disable line-comment-position,no-inline-comments */
 module.exports = ({
   k,
@@ -31368,10 +30326,10 @@ module.exports = ({
 }) => function *() {
   const H = [] // final spanner
   const internalRandom = randomSupplier(Math.pow(1 / nodes.length, 1 / k))
-  if (shouldYield) yield 'Will show initial clustering'
+  if (shouldYield()) yield 'Will show initial clustering'
   nodes.forEach(x => x.paint())
   postman()
-  if (shouldYield) yield 'Will start iterating'
+  if (shouldYield()) yield 'Will start iterating'
   for (let i = 1; i <= k - 1; i++) {
     // Signing a cluster for reaching next level
     const existingClusters = nodes.filter(({ cluster: { level } }) => level === i - 1)
@@ -31395,7 +30353,7 @@ module.exports = ({
       n.markAsUnSigned()
       return n
     })
-    if (shouldYield) yield 'Check marked clusters!'
+    if (shouldYield()) yield 'Check marked clusters!'
     // edges to all other szomszéd clusters
     for (let j = 0; j < unclusteredNodes.length; j++) {
       const { id, cluster: { id: ownClusterId } } = unclusteredNodes[j]
@@ -31407,7 +30365,7 @@ module.exports = ({
         return false
       })
       console.info(`edgesToOtherClusters: ${ id }`, edgesToOtherClusters)
-      if (shouldYield) yield 'Will mark edges to other clusters'
+      if (shouldYield()) yield 'Will mark edges to other clusters'
       edgesToOtherClusters.forEach(e => e.mark())
       // Show, which edges they are!
       console.info('Edges to other clusters: ', edgesToOtherClusters)
@@ -31424,11 +30382,11 @@ module.exports = ({
         return a
       }, {})
       console.info('sorted edges to others: ', sorted)
-      if (shouldYield) yield 'Check results! Next step: show Qv'
+      if (shouldYield()) yield 'Check results! Next step: show Qv'
       const Qv = Object.keys(sorted).map(key => sorted[key][0])
       console.info('Qv: ', Qv)
-      if (shouldYield) yield `Qv: ${ JSON.stringify(Qv, null, 2) }`
-      if (shouldYield) yield 'Checking if we have any signed neighbours'
+      if (shouldYield()) yield `Qv: ${ JSON.stringify(Qv, null, 2) }`
+      if (shouldYield()) yield 'Checking if we have any signed neighbours'
       // Also giving a distance property for later use:
       const signedNeighbours = Qv.map(({ target, source, weight }) => {
         const otherNode = nodes.find(({ id: otherId }) => otherId === (id === source ? target : source))
@@ -31437,14 +30395,14 @@ module.exports = ({
       console.info('Nodes in signed clusters: ', signedNeighbours)
       // b. part of the algorithm
       if (signedNeighbours.length < 1) {
-        if (shouldYield) yield 'Did not find signed neighbours'
+        if (shouldYield()) yield 'Did not find signed neighbours'
         H.push(Qv)
         postman()
       } else {
-        if (shouldYield) yield 'Found signed neighbour clusters'
+        if (shouldYield()) yield 'Found signed neighbour clusters'
         // eslint-disable-next-line
         const closestNode = signedNeighbours.sort((x, y) => x.distance - y.distance)[0]
-        if (shouldYield) yield `Chosen node: ${ closestNode.id }`
+        if (shouldYield()) yield `Chosen node: ${ closestNode.id }`
         console.info(`Joining cluster: ${ closestNode.cluster.id }`)
         // finding the joining edge:
         const { id: closestNodeId } = closestNode
@@ -31456,17 +30414,17 @@ module.exports = ({
         unclusteredNodes[j].cluster.id = closestNode.cluster.id
         unclusteredNodes[j].paint()
         postman()
-        if (shouldYield) yield `Adding every edge to H that is shorter than: {${ unclusteredNodes[j].id }, ${ closestNode.id }}`
+        if (shouldYield()) yield `Adding every edge to H that is shorter than: {${ unclusteredNodes[j].id }, ${ closestNode.id }}`
         const shortestToSomeClusters = Qv.filter(({ weight, id: edgeId }) =>
           weight < closestNode.distance && edgeId !== edgeIJoinedBy.id)
         H.push(shortestToSomeClusters)
-        if (shouldYield) yield 'Cleaning up'
+        if (shouldYield()) yield 'Cleaning up'
         edges.forEach(edge => edge.unmark())
         unclusteredNodes.filter(({ cluster: { level } }) => level !== closestNode.cluster.level).forEach(node => node.removePaint())
         console.info('H:', H)
-        if (shouldYield) yield 'Showing H'
+        if (shouldYield()) yield 'Showing H'
         H.flatMap(x => x).forEach(edge => edge.mark())
-        if (shouldYield) yield 'Showing H, will unmark on next click'
+        if (shouldYield()) yield 'Showing H, will unmark on next click'
         H.flatMap(x => x).forEach(edge => edge.unmark())
       }
     } // end of looping through unsigned nodes of current iteration
@@ -31507,65 +30465,37 @@ module.exports = ({
   // Edgestoadd gonna be a multi dimensional array, like: [[edge1,edge2], [edge3] ....], so lets flatten it!
   H.push(edgesToAdd.flatMap(x => x))
 
-  if (shouldYield) yield 'Will show final H'
+  if (shouldYield()) yield 'Will show final H'
   H.flatMap(x => x).forEach(edge => edge.finalColor())
-  if (shouldYield) yield 'Finished'
+  if (shouldYield()) yield 'Finished'
 }
 
-},{}],9:[function(require,module,exports){
-/* eslint-disable */
-
-// Styles for CY, CY
-const styles = require('../misc/style-factory')
-const graph = require('../graphs/graph2')
-const cytoFactory = require('./cy-factory')
-const nodeFactory = require('./node-factory')
-const edgeFactory = require('./edge-factory')
-const baswanaSenGenerator = require('./baswana-sen-generator')
-const { randomGenerator } = require('./utils.js')
+},{}],10:[function(require,module,exports){
+const appFactory = require('./app-factory')
 
 // HTML elements
 const cyContainer = document.getElementById('cy')
 const nextButton = document.getElementById('start-button')
 const infoDiv = document.getElementById('write-info')
 const yieldedInfoDiv = document.getElementById('yielded-messages')
+const yieldTrigger = document.getElementById('yield-button')
+const yieldInfo = document.getElementById('yield-info')
 
-// INIT
-const cyInstance = cytoFactory.createInstance(cyContainer, graph, styles)
-const nodes = graph.nodes.map(({ data: { id } }, index) => nodeFactory({
-  id,
-  level: 0,
-  clusterId: index,
-  cyInstance,
-}))
-const edges = graph.edges.map(({ data: { id, source, target, weight } }) => edgeFactory({
-  id,
-  source,
-  target,
-  weight,
-  cyInstance,
-}))
-const updateLabels = () => infoDiv.innerHTML = nodes.reduce((a, { id, cluster: { id: clusterId, level } }) =>
-  a.concat(`${ id } - cluster: ${ clusterId }, level: ${ level } <br>`), '')
-const baswanaSen = baswanaSenGenerator({
-  k: 4,
-  nodes,
-  edges,
-  randomSupplier: randomGenerator,
-  shouldYield: false,
-  postman: () => updateLabels()
-})()
+const graph = require('../graphs/graph1')
 
-updateLabels()
+appFactory({
+  cyContainer,
+  nextButton,
+  infoDiv,
+  yieldedInfoDiv,
+  graph,
+  yieldTrigger,
+  yieldInfo,
+})
 
-// Controls
-nextButton.onclick = () => {
-  const response = baswanaSen.next().value
-  yieldedInfoDiv.innerHTML = response || 'No info'
-  console.info(response)
-}
 
-},{"../graphs/graph2":7,"../misc/style-factory":14,"./baswana-sen-generator":8,"./cy-factory":10,"./edge-factory":11,"./node-factory":12,"./utils.js":13}],10:[function(require,module,exports){
+
+},{"../graphs/graph1":7,"./app-factory":8}],11:[function(require,module,exports){
 /* eslint-disable quote-props */
 const cytoscape = require('cytoscape')
 
@@ -31597,7 +30527,7 @@ module.exports = {
   })
 }
 
-},{"cytoscape":1}],11:[function(require,module,exports){
+},{"cytoscape":1}],12:[function(require,module,exports){
 module.exports = ({ id, source, target, weight, cyInstance }) => {
   const edge = {
     id,
@@ -31618,7 +30548,7 @@ module.exports = ({ id, source, target, weight, cyInstance }) => {
   return edge
 }
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 module.exports = ({ id, level, clusterId, cyInstance }) => {
   const node = {
     id,
@@ -31640,7 +30570,7 @@ module.exports = ({ id, level, clusterId, cyInstance }) => {
   return node
 }
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /* eslint-disable */
 module.exports = {
   updateClusterInfo: (fullClustering, displayer) => {
@@ -31651,54 +30581,83 @@ module.exports = {
   randomGenerator: succRate => () => Math.random() > (1 - succRate)
 }
 
-},{}],14:[function(require,module,exports){
-module.exports = [
-  {
-    selector: 'node',
-    style: {
-      'label': 'data(id)',
-      'background-color': 'gray',
-    }
-  },
-  {
-    selector: 'node.cluster-unsigned',
-    style: {
-      'background-color': '#ff1d00',
-      'label': 'data(id)'
-    }
-  },
-  {
-    selector: 'edge',
-    style: {
-      'label': 'data(id)'
-    }
-  },
-  {
-    selector: 'edge.final',
-    style: {
-      'label': 'data(id)',
-      'line-color': '#2ead00',
-    }
-  },
-  {
-    selector: 'edge.red-edge',
-    style: {
-      'label': 'data(weight)',
-      'line-color': '#ff1d00',
-    }
+},{}],15:[function(require,module,exports){
+module.exports = () => {
+  const letters = '0123456789ABCDEF'
+  let color = '#'
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)]
   }
-].concat([
+  return color
+}
+
+},{}],16:[function(require,module,exports){
+const randomColor = require('./random-color')
+module.exports = nodeNumber => {
+  const defClusterColors = [
     '#001c49',
     '#f4df42',
     '#00576d',
     '#98f442',
-    '#f4ad49'
-  ].map((x, i) => ({
-    selector: `node.cluster-${ i }`,
-    style: {
-      'background-color': x,
+    '#f4ad49',
+  ]
+  const colors = [
+    {
+      selector: 'node',
+      style: {
+        'label': 'data(id)',
+        'background-color': 'gray',
+      }
+    },
+    {
+      selector: 'node.cluster-unsigned',
+      style: {
+        'background-color': '#ff1d00',
+        'label': 'data(id)'
+      }
+    },
+    {
+      selector: 'edge',
+      style: {
+        'label': 'data(id)'
+      }
+    },
+    {
+      selector: 'edge.final',
+      style: {
+        'label': 'data(id)',
+        'line-color': '#2ead00',
+      }
+    },
+    {
+      selector: 'edge.red-edge',
+      style: {
+        'label': 'data(weight)',
+        'line-color': '#ff1d00',
+      }
     }
-  })))
+  ].concat(defClusterColors.map((x, i) => ({
+      selector: `node.cluster-${ i }`,
+      style: {
+        'background-color': x,
+      }
+    })))
+
+  const diff = nodeNumber - defClusterColors.length
+  if (diff > 0) {
+    for (let i = 0; i < diff; i++) {
+      colors.push({
+        selector: `node.cluster-${ defClusterColors.length + i }`,
+        style: {
+          'background-color': randomColor(),
+        }
+      })
+    }
+  }
+
+  console.info('colors: ', colors)
+  return colors
+}
 
 
-},{}]},{},[9]);
+},{"./random-color":15}]},{},[10]);
