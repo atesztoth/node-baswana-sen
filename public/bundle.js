@@ -30404,8 +30404,11 @@ module.exports = ({
     // Lets map the first ones:
     const finalEdges = Object.keys(orderedKneighbours).flatMap(y => orderedKneighbours[y][0])
     console.info(`Final edges to add from ${ myId }`, finalEdges)
-    H.push(finalEdges)
+    return finalEdges
   })
+
+  // Edgestoadd gonna be a multi dimensional array, like: [[edge1,edge2], [edge3] ....], so lets flatten it!
+  H.push(edgesToAdd.flatMap(x => x))
 
   if (shouldYield) yield 'Will show final H'
   H.flatMap(x => x).forEach(edge => edge.finalColor())
@@ -30451,7 +30454,7 @@ const baswanaSen = baswanaSenGenerator({
   nodes,
   edges,
   randomSupplier: randomGenerator,
-  shouldYield: true,
+  shouldYield: false,
   postman: () => updateLabels()
 })()
 

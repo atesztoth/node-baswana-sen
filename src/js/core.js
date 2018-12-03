@@ -36,7 +36,7 @@ const baswanaSen = baswanaSenGenerator({
   nodes,
   edges,
   randomSupplier: randomGenerator,
-  shouldYield: true,
+  shouldYield: false,
   postman: () => updateLabels()
 })()
 
