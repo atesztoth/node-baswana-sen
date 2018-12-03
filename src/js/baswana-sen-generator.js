@@ -36,7 +36,7 @@ module.exports = ({
       n.markAsUnSigned()
       return n
     })
-    yield 'Check marked clusters!'
+    if (shouldYield) yield 'Check marked clusters!'
     // edges to all other szomszéd clusters
     for (let j = 0; j < unclusteredNodes.length; j++) {
       const { id, cluster: { id: ownClusterId } } = unclusteredNodes[j]
@@ -48,7 +48,7 @@ module.exports = ({
         return false
       })
       console.info(`edgesToOtherClusters: ${ id }`, edgesToOtherClusters)
-      yield 'Will mark edges to other clusters'
+      if (shouldYield) yield 'Will mark edges to other clusters'
       edgesToOtherClusters.forEach(e => e.mark())
       // Show, which edges they are!
       console.info('Edges to other clusters: ', edgesToOtherClusters)

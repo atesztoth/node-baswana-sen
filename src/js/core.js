@@ -2,7 +2,7 @@
 
 // Styles for CY, CY
 const styles = require('../misc/style-factory')
-const graph = require('../graphs/graph1')
+const graph = require('../graphs/graph2')
 const cytoFactory = require('./cy-factory')
 const nodeFactory = require('./node-factory')
 const edgeFactory = require('./edge-factory')
@@ -13,6 +13,7 @@ const { randomGenerator } = require('./utils.js')
 const cyContainer = document.getElementById('cy')
 const nextButton = document.getElementById('start-button')
 const infoDiv = document.getElementById('write-info')
+const yieldedInfoDiv = document.getElementById('yielded-messages')
 
 // INIT
 const cyInstance = cytoFactory.createInstance(cyContainer, graph, styles)
@@ -45,7 +46,6 @@ updateLabels()
 // Controls
 nextButton.onclick = () => {
   const response = baswanaSen.next().value
+  yieldedInfoDiv.innerHTML = response || 'No info'
   console.info(response)
 }
-
-// 12334d

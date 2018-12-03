@@ -24,10 +24,7 @@ module.exports = {
       }
     ].concat(additionalStyles),
     layout: {
-      name: 'grid',
-      directed: false,
-      roots: '#a',
-      padding: 10
+      name: 'grid'
     }
   })
 }
