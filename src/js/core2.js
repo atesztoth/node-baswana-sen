@@ -1,3 +1,4 @@
+/* THIS FILE IS ONLY HERE FOR THE DEMO!! NO time for making it look nicer!!! */
 const appFactory = require('./app-factory')
 
 // HTML elements
@@ -8,7 +9,7 @@ const yieldedInfoDiv = document.getElementById('yielded-messages')
 const yieldTrigger = document.getElementById('yield-button')
 const yieldInfo = document.getElementById('yield-info')
 
-const graph = require('../graphs/graph1')
+const graph = require('../graphs/graph2')
 
 appFactory({
   cyContainer,
