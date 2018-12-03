@@ -30277,11 +30277,16 @@ module.exports = ({
   if (shouldYield) yield 'Will start iterating'
   for (let i = 1; i <= k - 1; i++) {
     // Signing a cluster for reaching next level
-    nodes.forEach(n => {
+    const existingClusters = nodes.map(({ cluster: { id } }) => id).filter((v, ind, a) => a.indexOf(v) === ind)
+    // Marking clusters
+    existingClusters.forEach(eCluster => {
       if (!internalRandom()) return
-      n.removePaint()
-      n.cluster.level = i
-      n.paint()
+      nodes.filter(x => x.cluster.id === eCluster).forEach(n => {
+          n.removePaint()
+          n.cluster.level = i
+          n.paint()
+        })
+      console.info('Cluster made it: ', eCluster)
     })
     postman()
     // node.cluster.level === i-1 => the node is unsigned!
@@ -30297,9 +30302,8 @@ module.exports = ({
       const { id, cluster: { id: ownClusterId } } = unclusteredNodes[j]
       const edgesToOtherClusters = edges.filter(({ source, target }) => {
         if (id === source || id === target) {
-          // todo: create general function for finding other node (no time now)
           const otherNode = nodes.find(({ id: otherId }) => otherId === (id === source ? target : source))
-          return otherNode.cluster.id !== ownClusterId
+          return otherNode.cluster.id !== ownClusterId && (otherNode.cluster.level === i || otherNode.cluster.level === i - 1)
         }
         return false
       })
@@ -30348,17 +30352,18 @@ module.exports = ({
         const edgeIJoinedBy = edges.filter(({ source, target }) =>
           (id === target || id === source) && (closestNodeId === target || closestNodeId === source))
         H.push(edgeIJoinedBy)
-        nodes[j].removePaint()
-        nodes[j].cluster.id = closestNode.cluster.id
-        nodes[j].paint()
+        unclusteredNodes[j].removePaint()
+        unclusteredNodes[j].cluster.level = closestNode.cluster.level
+        unclusteredNodes[j].cluster.id = closestNode.cluster.id
+        unclusteredNodes[j].paint()
         postman()
-        if (shouldYield) yield `Adding every edge to H that is shorter than: {${ nodes[i].id }, ${ closestNode.id }}`
+        if (shouldYield) yield `Adding every edge to H that is shorter than: {${ unclusteredNodes[j].id }, ${ closestNode.id }}`
         const shortestToSomeClusters = Qv.filter(({ weight, id: edgeId }) =>
           weight < closestNode.distance && edgeId !== edgeIJoinedBy.id)
         H.push(shortestToSomeClusters)
         if (shouldYield) yield 'Cleaning up'
         edges.forEach(edge => edge.unmark())
-        nodes.forEach(node => node.removePaint())
+        unclusteredNodes.filter(({ cluster: { level } }) => level !== closestNode.cluster.level).forEach(node => node.removePaint())
         console.info('H:', H)
         if (shouldYield) yield 'Showing H'
         H.flatMap(x => x).forEach(edge => edge.mark())
@@ -30369,13 +30374,36 @@ module.exports = ({
   } // end of main iteration
 
   // Every node adds an edge to H which is the shortest between it and a neighboor cluster of the final clustering
-  const kLevelClusters = nodes.reduce((a, c) => {
-    if (c.cluster.level === k - 1) {
-      a[c.cluster.id] = a[c.cluster.id] ? a[c.cluster.id].concat(c) : [c]
-    }
-    return a
-  }, {})
-  console.info(kLevelClusters)
+  if (nodes.filter(({ cluster: { level } }) => level === k - 1).length > 0) {
+    // If they even exist! There's a possibility, no cluster makes till this level.
+    nodes.forEach(n => {
+      const neighboorKnodes = nodes.filter(({ id: nid, cluster: { level: nlevel } }) => n.cluster.id !== nid && nlevel === k - 1)
+        .filter(({ id: pId }) => edges.find(({ source, target }) => (source === n.id && target === pId) || (target === n.id && source === pId)))
+
+      if (neighboorKnodes.length < 1) return
+
+      const distances = neighboorKnodes.reduce((a, c) => {
+        const { cluster: { id: cCid } } = c
+        const edge = edges.find(({ target, source }) => (source === n.id && target === cCid) || (target === n.id && source === cCid))
+        if (!edge) return a
+        const { weight } = edge
+        a[c.cluster.id] = a[c.cluster.id] ? a[c.cluster.id].push({ node: c, distance: weight }) : [{ node: c, distance: weight }]
+        return a
+      }, {})
+
+      const sortedByDist = Object.keys(distances).reduce((a, c) => {
+        a[c] = distances[c].sort((x, y) => x.distance - y.distance)
+        return a
+      }, {})
+
+      console.info(`Sorted by distances from ${ n.id }`, sortedByDist)
+
+      Object.keys(sortedByDist).forEach(key => {
+        if (!sortedByDist[key].length > 0) return
+        H.push(sortedByDist[key][0])
+      })
+    })
+  }
   if (shouldYield) yield 'Will show final H'
   H.flatMap(x => x).forEach(edge => edge.finalColor())
   if (shouldYield) yield 'Finished'
@@ -30413,7 +30441,6 @@ const edges = graph.edges.map(({ data: { id, source, target, weight } }) => edge
   weight,
   cyInstance,
 }))
-console.info(edges)
 const updateLabels = () => infoDiv.innerHTML = nodes.reduce((a, { id, cluster: { id: clusterId, level } }) =>
   a.concat(`${ id } - cluster: ${ clusterId }, level: ${ level } <br>`), '')
 const baswanaSen = baswanaSenGenerator({
@@ -30504,6 +30531,7 @@ module.exports = ({ id, level, clusterId, cyInstance }) => {
     cyInstance.filter(`node#${ id }`).addClass(`cluster-${ this.cluster.id }`)
   }.bind(node)
   node.removePaint = function() {
+    cyInstance.filter(`node#${ id }`).removeClass(`cluster-unsigned`)
     cyInstance.filter(`node#${ id }`).removeClass(`cluster-${ this.cluster.id }`)
   }.bind(node)
   node.markAsUnSigned = function () {

@@ -10,6 +10,7 @@ module.exports = ({ id, level, clusterId, cyInstance }) => {
     cyInstance.filter(`node#${ id }`).addClass(`cluster-${ this.cluster.id }`)
   }.bind(node)
   node.removePaint = function() {
+    cyInstance.filter(`node#${ id }`).removeClass('cluster-unsigned')
     cyInstance.filter(`node#${ id }`).removeClass(`cluster-${ this.cluster.id }`)
   }.bind(node)
   node.markAsUnSigned = function () {

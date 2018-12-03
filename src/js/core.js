@@ -29,7 +29,6 @@ const edges = graph.edges.map(({ data: { id, source, target, weight } }) => edge
   weight,
   cyInstance,
 }))
-console.info(edges)
 const updateLabels = () => infoDiv.innerHTML = nodes.reduce((a, { id, cluster: { id: clusterId, level } }) =>
   a.concat(`${ id } - cluster: ${ clusterId }, level: ${ level } <br>`), '')
 const baswanaSen = baswanaSenGenerator({
