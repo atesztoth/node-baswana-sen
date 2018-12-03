@@ -15,7 +15,9 @@ module.exports = ({
   if (shouldYield) yield 'Will start iterating'
   for (let i = 1; i <= k - 1; i++) {
     // Signing a cluster for reaching next level
-    const existingClusters = nodes.map(({ cluster: { id } }) => id).filter((v, ind, a) => a.indexOf(v) === ind)
+    const existingClusters = nodes.filter(({ cluster: { level } }) => level === i - 1)
+                                  .map(({ cluster: { id } }) => id)
+                                  .filter((v, ind, a) => a.indexOf(v) === ind)
     // Marking clusters
     existingClusters.forEach(eCluster => {
       if (!internalRandom()) return
@@ -112,36 +114,37 @@ module.exports = ({
   } // end of main iteration
 
   // Every node adds an edge to H which is the shortest between it and a neighboor cluster of the final clustering
-  if (nodes.filter(({ cluster: { level } }) => level === k - 1).length > 0) {
-    // If they even exist! There's a possibility, no cluster makes till this level.
-    nodes.forEach(n => {
-      const neighboorKnodes = nodes.filter(({ id: nid, cluster: { level: nlevel } }) => n.cluster.id !== nid && nlevel === k - 1)
-        .filter(({ id: pId }) => edges.find(({ source, target }) => (source === n.id && target === pId) || (target === n.id && source === pId)))
+  const edgesToAdd = nodes.map(n => {
+    // take all neighbours, then filter all which is in the same cluster
+    const { id: myId, cluster: { id: myClusterId } } = n
+    // 1. fiding realted edges
+    // 2. transforming them edges to id of nodes on the other side
+    // 3. finding corresponding nodes
+    // 4. filtering out all of them which are in the same cluster, or its level is not k (aka. k-1)
+    const realKneighbours = edges.filter(({ target, source }) => target === myId || source === myId)
+                                 .map(({ target, source }) => target === myId ? source : target)
+                                 .map(nodeId => nodes.find(({ id }) => id === nodeId))
+                                 .filter(({ cluster: { id, level } }) => id !== myClusterId && level === k - 1)
 
-      if (neighboorKnodes.length < 1) return
+    console.info(`${ myId } real K level neihbours: `, realKneighbours)
 
-      const distances = neighboorKnodes.reduce((a, c) => {
-        const { cluster: { id: cCid } } = c
-        const edge = edges.find(({ target, source }) => (source === n.id && target === cCid) || (target === n.id && source === cCid))
-        if (!edge) return a
-        const { weight } = edge
-        a[c.cluster.id] = a[c.cluster.id] ? a[c.cluster.id].push({ node: c, distance: weight }) : [{ node: c, distance: weight }]
-        return a
-      }, {})
+    if (realKneighbours.length < 1) return []
+    // let's create an object that contains edges to neighbour clusters ordered!
+    const orderedKneighbours = realKneighbours.reduce((a, c) => {
+      const { id: cID } = c
+      // eslint-disable-next-line no-extra-parens
+      const edgeToC = edges.find(({ target, source }) => (source === myId && target === cID) || (source === cID && target === myId))
+      a[c.cluster.id] = a[c.cluster.id] ? a[c.cluster.id].concat(edgeToC) : [edgeToC]
+      a[c.cluster.id] = a[c.cluster.id].sort(({ weight: x }, { weight: y }) => x - y)
+      return a
+    }, {})
 
-      const sortedByDist = Object.keys(distances).reduce((a, c) => {
-        a[c] = distances[c].sort((x, y) => x.distance - y.distance)
-        return a
-      }, {})
+    // Lets map the first ones:
+    const finalEdges = Object.keys(orderedKneighbours).flatMap(y => orderedKneighbours[y][0])
+    console.info(`Final edges to add from ${ myId }`, finalEdges)
+    H.push(finalEdges)
+  })
 
-      console.info(`Sorted by distances from ${ n.id }`, sortedByDist)
-
-      Object.keys(sortedByDist).forEach(key => {
-        if (!sortedByDist[key].length > 0) return
-        H.push(sortedByDist[key][0])
-      })
-    })
-  }
   if (shouldYield) yield 'Will show final H'
   H.flatMap(x => x).forEach(edge => edge.finalColor())
   if (shouldYield) yield 'Finished'
