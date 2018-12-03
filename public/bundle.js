@@ -30271,14 +30271,15 @@ module.exports = ({
 }) => function *() {
   const H = [] // final spanner
   const internalRandom = randomSupplier(Math.pow(1 / nodes.length, 1 / k))
+  if (shouldYield) yield 'Will show initial clustering'
   nodes.forEach(x => x.paint())
   postman()
-  yield 'Ready!'
+  if (shouldYield) yield 'Will start iterating'
   for (let i = 1; i <= k - 1; i++) {
     // Signing a cluster for reaching next level
-    if (shouldYield) yield 'Marking clusters...'
     nodes.forEach(n => {
       if (!internalRandom()) return
+      n.removePaint()
       n.cluster.level = i
       n.paint()
     })
@@ -30290,6 +30291,7 @@ module.exports = ({
       n.markAsUnSigned()
       return n
     })
+    yield 'Check marked clusters!'
     // edges to all other szomszéd clusters
     for (let j = 0; j < unclusteredNodes.length; j++) {
       const { id, cluster: { id: ownClusterId } } = unclusteredNodes[j]
@@ -30302,10 +30304,10 @@ module.exports = ({
         return false
       })
       console.info(`edgesToOtherClusters: ${ id }`, edgesToOtherClusters)
-      yield 'Marking edges to other clusters...'
+      yield 'Will mark edges to other clusters'
       edgesToOtherClusters.forEach(e => e.mark())
       // Show, which edges they are!
-      console.info(edgesToOtherClusters)
+      console.info('Edges to other clusters: ', edgesToOtherClusters)
       // transformign to format: { clusterid: [edges] }
       const sortableFormat = edgesToOtherClusters.reduce((a, c) => {
         const { source, target } = c
@@ -30319,46 +30321,64 @@ module.exports = ({
         return a
       }, {})
       console.info('sorted edges to others: ', sorted)
-      yield 'Check results! Next step: show Qv'
+      if (shouldYield) yield 'Check results! Next step: show Qv'
       const Qv = Object.keys(sorted).map(key => sorted[key][0])
-      console.info(Qv)
-      yield 'Checking if we have any signed neighbours'
+      console.info('Qv: ', Qv)
+      if (shouldYield) yield `Qv: ${ JSON.stringify(Qv, null, 2) }`
+      if (shouldYield) yield 'Checking if we have any signed neighbours'
       // Also giving a distance property for later use:
       const signedNeighbours = Qv.map(({ target, source, weight }) => {
         const otherNode = nodes.find(({ id: otherId }) => otherId === (id === source ? target : source))
         return Object.assign({}, otherNode, { distance: weight })
       }).filter(({ cluster: { level } }) => level === i)
       console.info('Nodes in signed clusters: ', signedNeighbours)
+      // b. part of the algorithm
       if (signedNeighbours.length < 1) {
+        if (shouldYield) yield 'Did not find signed neighbours'
         H.push(Qv)
+        postman()
       } else {
+        if (shouldYield) yield 'Found signed neighbour clusters'
         // eslint-disable-next-line
         const closestNode = signedNeighbours.sort((x, y) => x.distance - y.distance)[0]
-        yield `Chosen node: ${ closestNode.id }`
+        if (shouldYield) yield `Chosen node: ${ closestNode.id }`
         console.info(`Joining cluster: ${ closestNode.cluster.id }`)
         // finding the joining edge:
         const { id: closestNodeId } = closestNode
         const edgeIJoinedBy = edges.filter(({ source, target }) =>
           (id === target || id === source) && (closestNodeId === target || closestNodeId === source))
         H.push(edgeIJoinedBy)
-        nodes[i].removePaint()
-        nodes[i].cluster.id = closestNode.cluster.id
-        nodes[i].paint()
-        yield `Adding every edge to H that is shorter than: {${ nodes[i].id }, ${ closestNode.id }}`
+        nodes[j].removePaint()
+        nodes[j].cluster.id = closestNode.cluster.id
+        nodes[j].paint()
+        postman()
+        if (shouldYield) yield `Adding every edge to H that is shorter than: {${ nodes[i].id }, ${ closestNode.id }}`
         const shortestToSomeClusters = Qv.filter(({ weight, id: edgeId }) =>
           weight < closestNode.distance && edgeId !== edgeIJoinedBy.id)
         H.push(shortestToSomeClusters)
+        if (shouldYield) yield 'Cleaning up'
+        edges.forEach(edge => edge.unmark())
+        nodes.forEach(node => node.removePaint())
+        console.info('H:', H)
+        if (shouldYield) yield 'Showing H'
+        H.flatMap(x => x).forEach(edge => edge.mark())
+        if (shouldYield) yield 'Showing H, will unmark on next click'
+        H.flatMap(x => x).forEach(edge => edge.unmark())
       }
+    } // end of looping through unsigned nodes of current iteration
+  } // end of main iteration
 
-      yield 'Last step'
-      // Every node adds an edge to H which is the shortest between it and a neighboor cluster of the final clustering
-      yield 'No last step lol'
+  // Every node adds an edge to H which is the shortest between it and a neighboor cluster of the final clustering
+  const kLevelClusters = nodes.reduce((a, c) => {
+    if (c.cluster.level === k - 1) {
+      a[c.cluster.id] = a[c.cluster.id] ? a[c.cluster.id].concat(c) : [c]
     }
-
-    const Qv = []
-    if (shouldYield) yield 'Qv created'
-    console.info(Qv)
-  }
+    return a
+  }, {})
+  console.info(kLevelClusters)
+  if (shouldYield) yield 'Will show final H'
+  H.flatMap(x => x).forEach(edge => edge.finalColor())
+  if (shouldYield) yield 'Finished'
 }
 
 },{}],9:[function(require,module,exports){
@@ -30464,6 +30484,10 @@ module.exports = ({ id, source, target, weight, cyInstance }) => {
   edge.unmark = function () {
     cyInstance.filter(`edge#${ id }`).removeClass('red-edge')
   }
+  edge.finalColor = function() {
+    this.unmark()
+    cyInstance.filter(`edge#${ id }`).addClass('final')
+  }.bind(edge)
   return edge
 }
 
@@ -30501,18 +30525,13 @@ module.exports = {
 
 },{}],14:[function(require,module,exports){
 module.exports = [
-  '#001c49',
-  '#f4df42',
-  '#00576d',
-  '#98f442',
-  '#f4ad49'
-].map((x, i) => ({
-  selector: `node.cluster-${ i }`,
-  style: {
-    'background-color': x,
-    'label': 'data(id)'
-  }
-})).concat([
+  {
+    selector: 'node',
+    style: {
+      'label': 'data(id)',
+      'background-color': 'gray',
+    }
+  },
   {
     selector: 'node.cluster-unsigned',
     style: {
@@ -30527,12 +30546,31 @@ module.exports = [
     }
   },
   {
+    selector: 'edge.final',
+    style: {
+      'label': 'data(id)',
+      'line-color': '#2ead00',
+    }
+  },
+  {
     selector: 'edge.red-edge',
     style: {
       'label': 'data(weight)',
       'line-color': '#ff1d00',
     }
   }
-])
+].concat([
+    '#001c49',
+    '#f4df42',
+    '#00576d',
+    '#98f442',
+    '#f4ad49'
+  ].map((x, i) => ({
+    selector: `node.cluster-${ i }`,
+    style: {
+      'background-color': x,
+    }
+  })))
+
 
 },{}]},{},[9]);

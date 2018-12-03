@@ -11,5 +11,9 @@ module.exports = ({ id, source, target, weight, cyInstance }) => {
   edge.unmark = function () {
     cyInstance.filter(`edge#${ id }`).removeClass('red-edge')
   }
+  edge.finalColor = function() {
+    this.unmark()
+    cyInstance.filter(`edge#${ id }`).addClass('final')
+  }.bind(edge)
   return edge
 }
