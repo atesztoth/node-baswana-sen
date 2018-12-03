@@ -1,11 +1,11 @@
-module.exports = ({ id, source, target, cyInstance }) => {
+module.exports = ({ id, source, target, weight, cyInstance }) => {
   const edge = {
     id,
     source,
     target,
+    weight,
   }
   edge.mark = function () {
-    console.info('mark edge: ', id)
     cyInstance.filter(`edge#${ id }`).addClass('red-edge')
   }
   edge.unmark = function () {

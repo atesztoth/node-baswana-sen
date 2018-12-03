@@ -22,10 +22,11 @@ const nodes = graph.nodes.map(({ data: { id } }, index) => nodeFactory({
   clusterId: index,
   cyInstance,
 }))
-const edges = graph.edges.map(({ data: { id, source, target } }) => edgeFactory({
+const edges = graph.edges.map(({ data: { id, source, target, weight } }) => edgeFactory({
   id,
   source,
   target,
+  weight,
   cyInstance,
 }))
 console.info(edges)

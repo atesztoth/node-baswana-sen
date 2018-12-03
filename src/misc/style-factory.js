@@ -27,6 +27,7 @@ module.exports = [
   {
     selector: 'edge.red-edge',
     style: {
+      'label': 'data(weight)',
       'line-color': '#ff1d00',
     }
   }
