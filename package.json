@@ -13,6 +13,7 @@
     "watchify": "^3.11.0"
   },
   "scripts": {
+    "postinstall": "npm run build",
     "watch": "npm run build && .\\node_modules\\.bin\\watchify .\\src\\js\\core.js -v -o .\\public\\bundle.js",
     "build-first": "./node_modules/.bin/browserify ./src/js/core.js -o ./public/bundle.js",
     "build-second": "./node_modules/.bin/browserify ./src/js/core2.js -o ./public/bundle2.js",

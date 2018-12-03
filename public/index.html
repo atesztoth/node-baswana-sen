@@ -18,18 +18,18 @@
 </head>
 <body>
 <h1>Baswana-Sen demo</h1>
-<div style="display: flex; align-items: flex-start;">
+<div style="display: flex; align-items: flex-start; justify-content: space-evenly;">
     <div>
         <h2 style="margin-top: 0;">Controls</h2>
-        <button id="start-button" style="display: block; margin-top: 0;">Léptet</button>
+        <button id="start-button" style="display: block; margin-top: 0;">Next Step</button>
         <button id="yield-button" style="display: block; margin-top: 10px;">Yield</button>
         <span id="yield-info" style="display: block; margin-top: 10px;">Yield info</span>
     </div>
-    <div id="info" style="margin-left: 20px;">
+    <div id="info" style="margin-left: 20px; flex-grow: 0;">
         <h2 style="margin-top: 0;">Cluster info:</h2>
         <div id="write-info"></div>
     </div>
-    <div style="width: 100%;">
+    <div style="min-width: 1000px;">
         <div id="cy"></div>
         <div id="yielded-messages" style="margin-top: 10px;">Place for messages</div>
     </div>

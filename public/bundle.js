@@ -30522,8 +30522,12 @@ module.exports = {
       }
     ].concat(additionalStyles),
     layout: {
-      name: 'grid'
-    }
+      name: 'grid',
+      padding: 5,
+      fit: true,
+      avoidOverlap: true,
+    },
+    zoomingEnabled: false,
   })
 }
 
