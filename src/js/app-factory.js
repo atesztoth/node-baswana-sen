@@ -5,11 +5,11 @@ const edgeFactory = require('./edge-factory')
 const baswanaSenGenerator = require('./baswana-sen-generator')
 const { randomGenerator } = require('./utils.js')
 
-module.exports = ({ cyContainer, nextButton, infoDiv, yieldedInfoDiv, graph, yieldTrigger, yieldInfo }) => {
+module.exports = ({ cyContainer, nextButton, infoDiv, yieldedInfoDiv, graph, yieldTrigger, yieldInfo, layout = {} }) => {
   // INIT
   const styles = styleFactory(graph.nodes.length)
   let internalShouldYield = true
-  const cyInstance = cytoFactory.createInstance(cyContainer, graph, styles)
+  const cyInstance = cytoFactory.createInstance(cyContainer, graph, styles, layout)
   const nodes = graph.nodes.map(({ data: { id } }, index) => nodeFactory({
     id,
     level: 0,

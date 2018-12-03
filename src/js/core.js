@@ -9,6 +9,11 @@ const yieldTrigger = document.getElementById('yield-button')
 const yieldInfo = document.getElementById('yield-info')
 
 const graph = require('../graphs/graph1')
+const layout = {
+  name: 'preset',
+  padding: 20,
+  fit: true,
+}
 
 appFactory({
   cyContainer,
@@ -18,6 +23,7 @@ appFactory({
   graph,
   yieldTrigger,
   yieldInfo,
+  layout,
 })
 
 

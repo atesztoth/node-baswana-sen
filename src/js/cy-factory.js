@@ -2,7 +2,7 @@
 const cytoscape = require('cytoscape')
 
 module.exports = {
-  createInstance: (container, elements, additionalStyles = []) => cytoscape({
+  createInstance: (container, elements, additionalStyles = [], layout = {}) => cytoscape({
     container, // container to render in
     elements,
     style: [ // the stylesheet for the graph
@@ -23,7 +23,7 @@ module.exports = {
         }
       }
     ].concat(additionalStyles),
-    layout: {
+    layout: layout || {
       name: 'grid',
       padding: 5,
       fit: true,

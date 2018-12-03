@@ -30242,11 +30242,51 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
 },{"process/browser.js":5,"timers":6}],7:[function(require,module,exports){
 module.exports={
     "nodes": [
-      { "data": { "id": "a" } },
-      { "data": { "id": "b" } },
-      { "data": { "id": "c" } },
-      { "data": { "id": "d" } },
-      { "data": { "id": "e" } }
+      {
+        "data": {
+          "id": "a"
+        },
+        "position": {
+          "x": 100,
+          "y": 100
+        }
+      },
+      {
+        "data": {
+          "id": "b"
+        },
+        "position": {
+          "x": 500,
+          "y": 100
+        }
+      },
+      {
+        "data": {
+          "id": "c"
+        },
+        "position": {
+          "x": 900,
+          "y": 100
+        }
+      },
+      {
+        "data": {
+          "id": "d"
+        },
+        "position": {
+          "x": 900,
+          "y": 600
+        }
+      },
+      {
+        "data": {
+          "id": "e"
+        },
+        "position": {
+          "x": 500,
+          "y": 600
+        }
+      }
     ],
     "edges": [
       { "data": { "id": "ae", "weight": 1, "source": "a", "target": "e" } },
@@ -30267,11 +30307,11 @@ const edgeFactory = require('./edge-factory')
 const baswanaSenGenerator = require('./baswana-sen-generator')
 const { randomGenerator } = require('./utils.js')
 
-module.exports = ({ cyContainer, nextButton, infoDiv, yieldedInfoDiv, graph, yieldTrigger, yieldInfo }) => {
+module.exports = ({ cyContainer, nextButton, infoDiv, yieldedInfoDiv, graph, yieldTrigger, yieldInfo, layout = {} }) => {
   // INIT
   const styles = styleFactory(graph.nodes.length)
   let internalShouldYield = true
-  const cyInstance = cytoFactory.createInstance(cyContainer, graph, styles)
+  const cyInstance = cytoFactory.createInstance(cyContainer, graph, styles, layout)
   const nodes = graph.nodes.map(({ data: { id } }, index) => nodeFactory({
     id,
     level: 0,
@@ -30336,6 +30376,7 @@ module.exports = ({
                                   .map(({ cluster: { id } }) => id)
                                   .filter((v, ind, a) => a.indexOf(v) === ind)
     // Marking clusters
+    let forDisplayRi = []
     existingClusters.forEach(eCluster => {
       if (!internalRandom()) return
       nodes.filter(x => x.cluster.id === eCluster).forEach(n => {
@@ -30343,9 +30384,11 @@ module.exports = ({
           n.cluster.level = i
           n.paint()
         })
-      console.info('Cluster made it: ', eCluster)
+      forDisplayRi.push(eCluster)
     })
     postman()
+    if (shouldYield()) yield `R${ i }: ${ JSON.stringify(forDisplayRi, null, 2) }`
+    forDisplayRi = []
     // node.cluster.level === i-1 => the node is unsigned!
     // also giving them a nice red color to sign that, they are unsigned!
     const unclusteredNodes = nodes.filter(n => n.cluster.level === i - 1).map(n => {
@@ -30395,9 +30438,16 @@ module.exports = ({
       console.info('Nodes in signed clusters: ', signedNeighbours)
       // b. part of the algorithm
       if (signedNeighbours.length < 1) {
-        if (shouldYield()) yield 'Did not find signed neighbours'
+        if (shouldYield()) yield 'Did not find signed neighbours, adding every element of Qv to H'
         H.push(Qv)
+        if (shouldYield()) yield 'Cleaning up'
+        edges.forEach(edge => edge.unmark())
+        console.info('H:', H)
         postman()
+        if (shouldYield()) yield 'Will show H'
+        H.flatMap(x => x).forEach(edge => edge.mark())
+        if (shouldYield()) yield 'Showing H, will unmark on next click'
+        H.flatMap(x => x).forEach(edge => edge.unmark())
       } else {
         if (shouldYield()) yield 'Found signed neighbour clusters'
         // eslint-disable-next-line
@@ -30414,15 +30464,16 @@ module.exports = ({
         unclusteredNodes[j].cluster.id = closestNode.cluster.id
         unclusteredNodes[j].paint()
         postman()
-        if (shouldYield()) yield `Adding every edge to H that is shorter than: {${ unclusteredNodes[j].id }, ${ closestNode.id }}`
         const shortestToSomeClusters = Qv.filter(({ weight, id: edgeId }) =>
           weight < closestNode.distance && edgeId !== edgeIJoinedBy.id)
+        const forDisplayShortestEdges = shortestToSomeClusters.reduce((a, c) => a.concat(c.id), '')
+        if (shouldYield()) yield `Adding every edge to H that is shorter than: {${ unclusteredNodes[j].id }, ${ closestNode.id }} : [${ forDisplayShortestEdges }]`
         H.push(shortestToSomeClusters)
         if (shouldYield()) yield 'Cleaning up'
         edges.forEach(edge => edge.unmark())
         unclusteredNodes.filter(({ cluster: { level } }) => level !== closestNode.cluster.level).forEach(node => node.removePaint())
         console.info('H:', H)
-        if (shouldYield()) yield 'Showing H'
+        if (shouldYield()) yield 'Will show H'
         H.flatMap(x => x).forEach(edge => edge.mark())
         if (shouldYield()) yield 'Showing H, will unmark on next click'
         H.flatMap(x => x).forEach(edge => edge.unmark())
@@ -30482,6 +30533,11 @@ const yieldTrigger = document.getElementById('yield-button')
 const yieldInfo = document.getElementById('yield-info')
 
 const graph = require('../graphs/graph1')
+const layout = {
+  name: 'preset',
+  padding: 20,
+  fit: true,
+}
 
 appFactory({
   cyContainer,
@@ -30491,6 +30547,7 @@ appFactory({
   graph,
   yieldTrigger,
   yieldInfo,
+  layout,
 })
 
 
@@ -30500,7 +30557,7 @@ appFactory({
 const cytoscape = require('cytoscape')
 
 module.exports = {
-  createInstance: (container, elements, additionalStyles = []) => cytoscape({
+  createInstance: (container, elements, additionalStyles = [], layout = {}) => cytoscape({
     container, // container to render in
     elements,
     style: [ // the stylesheet for the graph
@@ -30521,7 +30578,7 @@ module.exports = {
         }
       }
     ].concat(additionalStyles),
-    layout: {
+    layout: layout || {
       name: 'grid',
       padding: 5,
       fit: true,
