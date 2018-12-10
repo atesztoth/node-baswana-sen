@@ -8,7 +8,7 @@ baseData.forEach(piece => {
     const { group: pieceGroup } = piece
     if (pieceGroup === 'edges') {
         const { data: { id, weight, source, target } } = Object.assign({}, piece)
-        if(source === target) return // no need for hurokél n shit
+        if(source === target) return // no need for hurokél
         delete piece.data
         delete piece.group
         edges.push({ data: Object.assign({}, { id, weight, source, target }, { ...piece }) })
